@@ -8,33 +8,75 @@ let score = JSON.parse(localStorage.getItem('score')) || {
 updateScoreElement();
 
 
+let isAutoPlaying = false;
+let intervalId;
+
+
+function autoPlay(){
+  if(!isAutoPlaying){
+    intervalId = setInterval(() => {
+      const playerMove = pickComputerMove();
+      playGame(playerMove);
+    }, 1000);
+    isAutoPlaying = true;
+  }else{
+    clearInterval(intervalId);
+    isAutoPlaying = false;
+  }
+}
+
+document.querySelector('.js-rock-button')
+  .addEventListener('click', () => {
+    playGame('rock');
+  });
+
+document.querySelector('.js-paper-button')
+  .addEventListener('click', () => {
+    playGame('paper');
+  });
+
+document.querySelector('.js-scissors-button')
+  .addEventListener('click', () => {
+    playGame('scissors');
+  });
+
+document.body.addEventListener('keydown', (event) =>{
+  if(event.key === 'r' || event.key === 'R'){
+    playGame('rock');
+  }else if(event.key === 'p' || event.key === 'P'){
+    playGame('paper');
+  }else if(event.key === 's' || event.key === 'S'){
+    playGame('scissors');
+  }
+});
+
 function playGame(playerMove){
   const computerMove = pickComputerMove();
   
   let result = '';
 
-  if(playerMove === 'Scissors'){
-    if(computerMove === 'Rock'){
+  if(playerMove === 'scissors'){
+    if(computerMove === 'rock'){
       result = 'You Lose.'
-    }else if(computerMove === 'Paper'){
+    }else if(computerMove === 'paper'){
       result = 'You Win!'
     }else{
       result = 'Tie.'
     }
   
-  }else if(playerMove === 'Paper'){
-    if (computerMove === 'Rock'){
+  }else if(playerMove === 'paper'){
+    if (computerMove === 'rock'){
       result = 'You Win!';
-    }else if(computerMove === 'Paper'){
+    }else if(computerMove === 'paper'){
       result = 'Tie.';
     }else{
       result = 'You Lose.'
     }
  
-  }else if(playerMove === 'Rock'){
-    if(computerMove === 'Rock'){
+  }else if(playerMove === 'rock'){
+    if(computerMove === 'rock'){
       result = 'Tie.';
-    }else if(computerMove === 'Paper'){
+    }else if(computerMove === 'paper'){
       result = 'You Lose.';
     }else{
       result = 'You Win!';
@@ -75,11 +117,11 @@ function pickComputerMove(){
 
 
   if(randomNumber >=0 && randomNumber < 1/3){
-    computerMove = 'Rock';
+    computerMove = 'rock';
   }else if(randomNumber >= 1/3 && randomNumber <2/3){
-      computerMove = 'Paper';
+      computerMove = 'paper';
   }else{
-    computerMove = 'Scissors';
+    computerMove = 'scissors';
   }
 
   return computerMove;
