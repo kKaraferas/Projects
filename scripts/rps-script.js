@@ -50,12 +50,7 @@ document.querySelector('.js-scissors-button')
 
 document.querySelector('.js-reset-button')
   .addEventListener('click', () => {
-    score.wins = 0;
-    score.losses = 0;
-    score.ties = 0;
-
-    localStorage.removeItem('score');
-    updateScoreElement();
+    clearScore();
   });
 
 document.body.addEventListener('keydown', (event) =>{
@@ -68,16 +63,7 @@ document.body.addEventListener('keydown', (event) =>{
   }else if(event.key === 'a' || event.key === 'A'){
     autoPlay();
   }else if(event.key === 'Escape'){
-    score.wins = 0;
-    score.losses = 0;
-    score.ties = 0;
-
-    localStorage.removeItem('score');
-    updateScoreElement();
-    clearInterval(intervalId);
-    isAutoPlaying = false;
-    document.querySelector('.js-auto-play-button')
-      .innerHTML = 'Auto play';
+    clearScore();
   }
 });
 
@@ -158,3 +144,24 @@ function pickComputerMove(){
   return computerMove;
 
 }
+
+function clearScore(){
+  let confirm = window.confirm('Are you sure you want to reset the score?');
+
+  if(confirm){
+    score.wins = 0;
+    score.losses = 0;
+    score.ties = 0;
+  
+    localStorage.removeItem('score');
+    updateScoreElement();
+  
+    clearInterval(intervalId);
+    isAutoPlaying = false;
+    document.querySelector('.js-auto-play-button')
+      .innerHTML = 'Auto play';
+    
+    document.querySelector('.js-result').innerHTML = '';
+    document.querySelector('.js-moves').innerHTML = '';
+  }
+} 
