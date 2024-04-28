@@ -25,18 +25,9 @@
     <p class="js-moves"></p>
     <p class="js-score score"></p>
 
-    <button onclick="
-      score.wins = 0;
-      score.losses = 0;
-      score.ties = 0;
-
-      localStorage.removeItem('score');
-      updateScoreElement();
-    " class="reset-score-button">Reset Score</button>
+    <button class="reset-score-button js-reset-button">Reset Score</button>
     
-    <button onclick="
-      autoPlay();
-    " class="auto-play-button">Auto play</button>
+    <button class="auto-play-button js-auto-play-button">Auto play</button>
 
     <script src="scripts/rps-script.js" type="text/javascript"></script>
   </body>

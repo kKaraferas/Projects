@@ -11,6 +11,10 @@ updateScoreElement();
 let isAutoPlaying = false;
 let intervalId;
 
+document.querySelector('.js-auto-play-button')
+  .addEventListener('click', () => {
+    autoPlay();
+  });
 
 function autoPlay(){
   if(!isAutoPlaying){
@@ -19,9 +23,13 @@ function autoPlay(){
       playGame(playerMove);
     }, 1000);
     isAutoPlaying = true;
+    document.querySelector('.js-auto-play-button')
+      .innerHTML = 'Stop Playing';
   }else{
     clearInterval(intervalId);
     isAutoPlaying = false;
+    document.querySelector('.js-auto-play-button')
+      .innerHTML = 'Auto play';
   }
 }
 
@@ -40,6 +48,16 @@ document.querySelector('.js-scissors-button')
     playGame('scissors');
   });
 
+document.querySelector('.js-reset-button')
+  .addEventListener('click', () => {
+    score.wins = 0;
+    score.losses = 0;
+    score.ties = 0;
+
+    localStorage.removeItem('score');
+    updateScoreElement();
+  });
+
 document.body.addEventListener('keydown', (event) =>{
   if(event.key === 'r' || event.key === 'R'){
     playGame('rock');
@@ -47,6 +65,19 @@ document.body.addEventListener('keydown', (event) =>{
     playGame('paper');
   }else if(event.key === 's' || event.key === 'S'){
     playGame('scissors');
+  }else if(event.key === 'a' || event.key === 'A'){
+    autoPlay();
+  }else if(event.key === 'Escape'){
+    score.wins = 0;
+    score.losses = 0;
+    score.ties = 0;
+
+    localStorage.removeItem('score');
+    updateScoreElement();
+    clearInterval(intervalId);
+    isAutoPlaying = false;
+    document.querySelector('.js-auto-play-button')
+      .innerHTML = 'Auto play';
   }
 });
 
